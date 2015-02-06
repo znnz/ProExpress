@@ -1,0 +1,8 @@
+{
+  "name": "ProExpress",
+  "version": "0.0.1",
+  "description": "Pro Express",
+  "dependencies": {
+    "express": "^4.11.2"
+  }
+}
