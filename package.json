@@ -22,7 +22,7 @@
     "node-uuid": "^1.4.2",
     "response-time": "^2.3.0",
     "serve-favicon": "^2.2.0",
-    "serve-index": "^1.6.1",
+    "serve-index": "^1.6.2",
     "timeout": "^0.2.1",
     "vhost": "^3.0.0"
   }

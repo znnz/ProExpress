@@ -68,6 +68,7 @@ app.use(session({
     secret:'blue katty'
 }));
 app.use(csrf());
+app.use('/shared',serveIndex(path.join('public','shared'),{'icons':true}));
 app.use(express.static(path.join(__dirname, 'public'),{
     maxAge:86400000
 }));
