@@ -25,7 +25,8 @@ var express = require('express'),
     routes = require('./routes/index'),
     session=require('express-session'),
     csrf=require('csurf');
-    users = require('./routes/users');
+    users = require('./routes/users'),
+    myMiddleware=require('./public/shared/mymiddleware');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
+app.use(myMiddleware());
 app.use(favicon(path.join(__dirname, 'public','favicon.ico')));
 app.use(compression({threshold: 1}));
 app.use(logger('dev'));
