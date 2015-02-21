@@ -1,4 +1,15 @@
 /* sample data */
+var userList={
+    'znnz':{
+        email:"znnz@znnz.me",
+        website:"http://www.znnz.me",
+        blog:"blog.znnz.me"
+    }
+}
+var findUserByName=function(userName,callback){
+    if(!userList[userName]) return callback(new Error('No user matching '+userName));
+    return callback(null,userList[userName]);
+}
 var book = {
     name: 'Practical Node.JS',
     publisher: 'znnz',
@@ -84,7 +95,6 @@ app.use('/admin', function (req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/users', users);
 
 
 app.get('/jsonp', function (request, response) {
@@ -96,8 +106,12 @@ app.get('/json', function (request, response) {
 app.get('/users', function (request, response) {
     response.send('users');
 });
-app.get('/users/', function (request, response) {
-    response.send('users/');
+app.get('/v1/users/:username',function(request,response,next){
+   var userName=request.params.username;
+    findUserByName(userName,function(error,user){
+       if(error) return next(error);
+       return response.render('user',user);
+    });
 });
 /*
 app.get(
