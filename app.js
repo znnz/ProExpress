@@ -96,7 +96,13 @@ app.use('/admin', function (req, res, next) {
 
 app.use('/', routes);
 
-
+app.get('/search',function(req,res){
+   console.log(req.query);
+    res.end(JSON.stringify(req.query)+'\r\n');
+});
+app.get('/params/:role/:name/:status',function(req,res){
+    res.end(JSON.stringify(req.params));
+});
 app.get('/jsonp', function (request, response) {
     response.jsonp(book);
 });
