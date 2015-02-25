@@ -73,14 +73,14 @@ app.use(methodOverride('_method'));
 app.use(responseTime(4));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser('abc'));
 app.use(session({
     genid:function(req){
         return uuid()
     },
     secret:'blue katty'
 }));
-app.use(csrf());
+//app.use(csrf());
 app.use('/shared',serveIndex(path.join('public','shared'),{'icons':true}));
 app.use(express.static(path.join(__dirname, 'public'),{
     maxAge:86400000
@@ -101,7 +101,35 @@ app.get('/search',function(req,res){
     res.end(JSON.stringify(req.query)+'\r\n');
 });
 app.get('/params/:role/:name/:status',function(req,res){
+    console.log(req.route);
     res.end(JSON.stringify(req.params));
+});
+app.post('/body',function(req,res){
+   console.log(req.body);
+    res.end(JSON.stringify(req.body)+"\r\n");
+});
+app.get('/cookies',function(req,res){
+    if(!req.cookies.counter) res.cookie('counter',0);
+    else res.cookie('counter',parseInt(req.cookies.counter,10)+1);
+    res.status(200).send('cookies are',req.cookies);
+});
+app.get('/signed-cookies',function(req,res){
+   if(!req.signedCookies.counter) res.cookie('counter',0,{signed:true});
+    else res.cookie('counter',parseInt(req.signedCookies.counter,10)+1,{signed:true});
+    res.status(200).send('cookies are:',req.signedCookies);
+});
+app.get('/content-type',function(req,res){
+   res.status(200).send(req.get('content-type'));
+});
+app.get('/set-html',function(req,res){
+   res.set('content-type','text/html');
+    res.end('<html><body><h1>Expression</h1></body></html>');
+});
+app.get('/render',function(req,res){
+   res.render('render');
+});
+app.get('/render-title',function(req,res){
+   res.render('rendertitle',{title:'Pro'});
 });
 app.get('/jsonp', function (request, response) {
     response.jsonp(book);
